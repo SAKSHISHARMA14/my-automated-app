@@ -1,0 +1,15 @@
+services:
+  db-server:
+    image: mysql:8.0
+    container_name: sakshi-mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MY_DB_PASSWORD}
+    restart: always
+
+  frontend-app:
+    image: nginx
+    container_name: sakshi-frontend
+    ports:
+      - "9099:80"
+    depends_on:
+      - db-server

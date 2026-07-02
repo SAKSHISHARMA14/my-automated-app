@@ -1,0 +1,17 @@
+FROM alpine:latest
+WORKDIR /app
+
+# 👥 Step 1: Linux system mein secure group aur user add karo
+RUN addgroup -S sakshigroup && adduser -S sakshiuser -G sakshigroup
+
+# 📄 Ek temporary text file banao test karne ke liye
+RUN echo "Non-root security testing by Sakshi" > safe-output.txt
+
+# 🔑 Step 2: Pure folder ki ownership naye user ko transfer karo
+RUN chown -R sakshiuser:sakshigroup /app
+
+# 🛡️ Step 3: USER directive se default root (UID 0) ko block karo
+USER sakshiuser
+
+# Container ko live rakhne ke liye sleep command chalayenge
+CMD ["sleep", "3000"]

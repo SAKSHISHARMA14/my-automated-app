@@ -1,0 +1,1 @@
+console.log("Hello Sakshi, this is running perfectly inside Google Distroless without any OS!");

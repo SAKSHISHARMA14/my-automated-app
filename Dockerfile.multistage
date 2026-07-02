@@ -1,0 +1,12 @@
+# Stage 1: The Builder (Heavy Image)
+FROM node:20 AS builder 
+WORKDIR /app 
+RUN npm install -g typescript 
+# Yahan hum shell redirection se file bana rahe hain
+RUN echo "Hello Sakshi, Code Optimized!" > built-code.txt
+
+# Stage 2: The Runner (Slim Image)
+FROM alpine:latest 
+WORKDIR /root/ 
+COPY --from=builder /app/built-code.txt . 
+CMD ["cat", "built-code.txt"]

@@ -1,0 +1,28 @@
+# STAGE 1: Builder
+FROM node:20 AS builder
+WORKDIR /app
+# Apne local code ko copy karo
+COPY app.js .
+
+# STAGE 2: Secure Runner (Google Distroless)
+FROM gcr.io/distroless/nodejs20-debian12
+WORKDIR /app
+# Stage 1 se js file ko copy karo
+COPY --from=builder /app/app.js .
+# Node automatically is file ko run karega
+CMD ["app.js"]
+
+
+
+# STAGE 1: The Builder (Heavy environment to prepare code)
+#FROM node:20 AS builder
+#WORKDIR /app
+#RUN echo "Hello Sakshi, this is running inside Google Distroless!" > secure-code.txt
+
+# STAGE 2: The Runner (Google Distroless - No Shell, No OS)
+#FROM gcr.io/distroless/nodejs20-debian12
+#WORKDIR /app
+# Previous stage se secure file ko copy karo
+#COPY --from=builder /app/secure-code.txt .
+# Distroless mein direct execution target likha jata hai
+#CMD ["secure-code.txt"]
